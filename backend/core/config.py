@@ -15,6 +15,9 @@ class Settings(BaseSettings):
     # Vector DB
     QDRANT_URL: str = "http://localhost:6333"
     
+    # LLM
+    OPENAI_API_KEY: str | None = None
+    
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", case_sensitive=True, extra="ignore")
 
 settings = Settings()
