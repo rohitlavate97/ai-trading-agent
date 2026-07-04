@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from db.database import get_db
 from models.user import User
 from api.deps import get_current_active_user
-from agents.base import chat_with_agent
+from agents.supervisor import chat_with_supervisor
 
 router = APIRouter()
 
@@ -21,7 +21,7 @@ async def chat(
     current_user: Annotated[User, Depends(get_current_active_user)],
     db: Annotated[AsyncSession, Depends(get_db)]
 ):
-    # Pass message to the LangGraph agent
+    # Pass message to the LangGraph supervisor agent
     # Currently stateless, in the future we'll pass thread_id for conversation history
-    response_text = await chat_with_agent(db, current_user.id, request.message)
+    response_text = await chat_with_supervisor(db, current_user.id, request.message)
     return ChatResponse(response=response_text)
