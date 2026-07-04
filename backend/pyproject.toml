@@ -1,0 +1,35 @@
+[project]
+name = "ai-trading-backend"
+version = "0.1.0"
+description = "Backend for AI Trading Assistant"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.111.0",
+    "uvicorn[standard]>=0.30.1",
+    "sqlalchemy[asyncio]>=2.0.30",
+    "alembic>=1.13.1",
+    "pydantic[email]>=2.7.4",
+    "pydantic-settings>=2.3.4",
+    "aiomysql>=0.2.0",
+    "redis>=5.0.6",
+    "celery>=5.4.0",
+    "langgraph>=0.1.1",
+    "openai>=1.35.3",
+    "qdrant-client>=1.9.1",
+    "pytest>=8.2.2",
+    "pytest-asyncio>=0.23.7",
+    "httpx>=0.27.0",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]
