@@ -9,7 +9,7 @@ from db.database import get_db
 from models.user import User
 from core.security import ALGORITHM
 from sqlalchemy.future import select
-from agents.supervisor import chat_with_supervisor
+from agents.supervisor import stream_chat_with_supervisor
 
 router = APIRouter()
 
@@ -76,15 +76,9 @@ async def websocket_chat(
             if not user_message:
                 continue
 
-            # In Milestone 9 we just await the full response. Streaming comes later.
-            response_text = await chat_with_supervisor(db, user.id, user_message)
-            
-            # Send back JSON structured message
-            response_payload = {
-                "type": "message",
-                "content": response_text
-            }
-            await manager.send_personal_message(json.dumps(response_payload), user.id)
+            # Iterate over the async generator and stream chunks to the client
+            async for chunk in stream_chat_with_supervisor(db, user.id, user_message):
+                await manager.send_personal_message(chunk, user.id)
             
     except WebSocketDisconnect:
         manager.disconnect(user.id)

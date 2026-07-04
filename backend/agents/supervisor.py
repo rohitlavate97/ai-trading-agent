@@ -112,22 +112,41 @@ def get_supervisor_app(db: AsyncSession, user_id: str):
     
     return workflow.compile()
 
-async def chat_with_supervisor(db: AsyncSession, user_id: str, message: str) -> str:
-    """Convenience function to interact with the supervisor agent"""
+import json
+
+async def stream_chat_with_supervisor(db: AsyncSession, user_id: str, message: str):
+    """Generator to stream events from the supervisor agent"""
     app = get_supervisor_app(db, user_id)
     inputs = {"messages": [HumanMessage(content=message)]}
     
-    # Process the stream
-    final_state = None
-    async for output in app.astream(inputs, {"recursion_limit": 15}):
-        for key, value in output.items():
-            final_state = value
+    if not settings.OPENAI_API_KEY:
+        yield json.dumps({"type": "message", "content": "[MOCK] Supervisor routing disabled. OPENAI_API_KEY missing."})
+        yield json.dumps({"type": "message_end"})
+        return
+        
+    async for event in app.astream_events(inputs, version="v1"):
+        kind = event["event"]
+        
+        # Stream LLM tokens
+        if kind == "on_chat_model_stream":
+            content = event["data"]["chunk"].content
+            if content:
+                yield json.dumps({"type": "token", "content": content})
+                
+        # Stream Tool starts
+        elif kind == "on_tool_start":
+            yield json.dumps({
+                "type": "tool_start", 
+                "name": event["name"], 
+                "input": event["data"].get("input")
+            })
             
-    # The supervisor returns {"next": "FINISH"}. 
-    # The actual response is the last message in the state before FINISH.
-    # We must retrieve the state to get the messages.
-    state = await app.aget_state({"configurable": {"thread_id": "1"}}) # Using a dummy thread_id for state retrieval if needed
-    # Actually, astream yields updates. The easiest way is to use ainvoke to get final state.
-    
-    result = await app.ainvoke(inputs, {"recursion_limit": 15})
-    return result["messages"][-1].content
+        # Stream Tool ends
+        elif kind == "on_tool_end":
+            yield json.dumps({
+                "type": "tool_end", 
+                "name": event["name"], 
+                "result": str(event["data"].get("output"))
+            })
+            
+    yield json.dumps({"type": "message_end"})
