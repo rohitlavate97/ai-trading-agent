@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from core.config import settings
-from api.routers import auth, users, watchlists, portfolio, orders
+from api.routers import auth, users, watchlists, portfolio, orders, agents
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -22,6 +22,7 @@ app.include_router(users.router, prefix=f"{settings.API_V1_STR}/users", tags=["u
 app.include_router(watchlists.router, prefix=f"{settings.API_V1_STR}/watchlists", tags=["watchlists"])
 app.include_router(portfolio.router, prefix=f"{settings.API_V1_STR}/portfolio", tags=["portfolio"])
 app.include_router(orders.router, prefix=f"{settings.API_V1_STR}/orders", tags=["orders"])
+app.include_router(agents.router, prefix=f"{settings.API_V1_STR}/agents", tags=["agents"])
 
 @app.get("/health")
 async def health_check():
