@@ -25,6 +25,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from core.config import settings
 from models.base import Base
 import models.user  # Import all models here so Alembic detects them
+import models.watchlist
 
 target_metadata = Base.metadata
 
