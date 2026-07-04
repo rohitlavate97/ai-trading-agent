@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- **Milestone 9: WebSockets base**: Implemented `ConnectionManager` and a real-time `WebSocket /api/v1/ws/chat` endpoint to stream interactions to the Supervisor agent.
 - **Milestone 8: Multi-agent routing**: Replaced the basic agent with a LangGraph hierarchical supervisor pattern. Introduced `MarketAgent` and `PortfolioAgent` specialized sub-nodes.
 - **Milestone 7: Tools layer implementation**: Added `@tool` decorators for `get_stock_price` and `get_portfolio_summary`, binding them to the LangGraph execution flow using `ToolNode`.
 - **Milestone 6: Agentic API base**: Added LangChain/LangGraph dependencies and created a baseline state graph (`AgentState`) connected to a mock LLM node, exposed via `POST /api/v1/agents/chat`.

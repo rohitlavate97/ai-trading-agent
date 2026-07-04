@@ -41,7 +41,7 @@ The AI Trading Assistant follows a modular monolith architecture. It is designed
 - **Architecture**: AI agents are orchestrated using `langgraph` state graphs. We implement a **Multi-Agent Supervisor Pattern** where a central routing agent (Supervisor) delegates tasks to specialized sub-agents (`MarketAgent` and `PortfolioAgent`) based on the conversation history.
 - **LLM Integration**: Built to wrap `ChatOpenAI` and leverages structured outputs (`with_structured_output`) for deterministic routing. Can be extended to use local models or other providers via LangChain's unified `BaseChatModel`.
 - **Tools**: Sub-agents use LangGraph's `create_react_agent` and bind tools like `get_stock_price` (market data mock) and `get_portfolio_summary` (real DB integration). Tool factories dynamically inject the user's `AsyncSession`.
-- **API**: Users interact with the agents via `POST /api/v1/agents/chat`.
+- **API**: The primary interactive channel is the WebSocket endpoint `WS /api/v1/ws/chat?token=<jwt_token>`. The legacy REST endpoint `POST /api/v1/agents/chat` remains available but is not recommended for interactive chat due to the lack of streaming capabilities. The `ConnectionManager` tracks active WS sessions per user.
 
 ### Database Foundation & Vector DB
 - **Relational DB (MySQL)**: Handled via SQLAlchemy 2.x and Alembic. A seed script `backend/db/seed.py` is provided to rapidly initialize essential data (admin and default user) during local setups.
