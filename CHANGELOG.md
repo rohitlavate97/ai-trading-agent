@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- **Milestone 14: Trading UI and Portfolio Widgets**: Built `PortfolioWidget` and `OrderHistoryWidget` to fetch and render live trading data from the backend. Redesigned the Dashboard using CSS Grid to display data widgets side-by-side with the ChatWidget.
 - **Milestone 13: AI Chat Widget**: Created a real-time `ChatWidget` component in React. Wired it to the `ws://localhost:8000/api/v1/ws/chat` endpoint to parse and display streamed tokens and interactive tool execution badges.
 - **Milestone 12: Authentication & state management**: Created frontend `ApiClient`, `AuthContext`, and `ProtectedRoute`. Connected `/login` and `/register` components to backend FastAPI endpoints using JWT.
 - **Milestone 11: Frontend layout and routing**: Initialized Vite + React + TS `frontend` app. Set up premium CSS design tokens and layout components (`AuthLayout`, `DashboardLayout`) with `react-router-dom`.
