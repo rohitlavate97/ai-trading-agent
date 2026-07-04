@@ -38,8 +38,9 @@ The AI Trading Assistant follows a modular monolith architecture. It is designed
 - **API**: `GET /api/v1/portfolio` fetches the account state and positions, `GET /api/v1/orders` fetches trade history, and `POST /api/v1/orders` allows submitting new trades.
 
 ### Agentic Subsystem (LangChain/LangGraph)
-- **Architecture**: AI agents are orchestrated using `langgraph` state graphs. A baseline `StateGraph` processes `AgentState` containing conversational messages.
+- **Architecture**: AI agents are orchestrated using `langgraph` state graphs. A baseline `StateGraph` processes `AgentState` containing conversational messages. A `ToolNode` automatically executes function calls designated by the LLM.
 - **LLM Integration**: Built to wrap `ChatOpenAI`. Can be extended to use local models or other providers via LangChain's unified `BaseChatModel`.
+- **Tools**: Features `get_stock_price` (market data mock) and `get_portfolio_summary` (real DB integration) constructed dynamically per request to inject `AsyncSession` context.
 - **API**: Users interact with the agents via `POST /api/v1/agents/chat`.
 
 ### Database Foundation & Vector DB
