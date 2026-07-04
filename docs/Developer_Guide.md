@@ -50,4 +50,5 @@ The AI Trading Assistant follows a modular monolith architecture. It is designed
 ## Frontend Architecture
 - **Tech Stack**: React + TypeScript built with Vite.
 - **Design System**: A vanilla CSS glassmorphic aesthetic defined in `frontend/src/index.css`. Includes CSS variables for themes, typography (`Outfit` font), and standard component utilities.
-- **Routing**: `react-router-dom` manages navigation between `AuthLayout` (for public endpoints like `/login` and `/register`) and `DashboardLayout` (for the authenticated `/` app experience).
+- **Routing**: `react-router-dom` manages navigation between `AuthLayout` (for public endpoints like `/login` and `/register`) and `DashboardLayout` (for the authenticated `/` app experience). Access to the dashboard is guarded by a `ProtectedRoute` component.
+- **State & API**: Network requests are centralized via `ApiClient` which automatically manages the `Authorization` bearer token. Global authentication state (JWT token and user metadata) is managed natively using React's `Context` API (`AuthContext`).
