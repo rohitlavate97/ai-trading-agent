@@ -26,6 +26,8 @@ from core.config import settings
 from models.base import Base
 import models.user  # Import all models here so Alembic detects them
 import models.watchlist
+import models.portfolio
+import models.order
 
 target_metadata = Base.metadata
 
