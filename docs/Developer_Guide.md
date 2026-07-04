@@ -18,3 +18,11 @@ The AI Trading Assistant follows a modular monolith architecture. It is designed
 - Pytest and Pytest-asyncio for backend tests.
 - Httpx for async FastAPI test client.
 - Angular built-in tools for frontend component testing.
+
+## Modules
+
+### Authentication & RBAC
+- **Architecture**: Employs stateless JWT tokens utilizing the OAuth2PasswordBearer flow for secure API access.
+- **Database**: The `users` table holds basic profile data along with the `hashed_password` (via passlib/bcrypt).
+- **Security**: Access roles (`USER` vs `ADMIN`) are enforced natively at the route level via FastAPI dependency injection (`require_role(RoleEnum.ADMIN)`).
+- **Testing**: Includes tests for correct JWT validation and password hashing behavior.
