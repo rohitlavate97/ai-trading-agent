@@ -1,0 +1,30 @@
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.dashboard-left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  overflow-y: auto;
+  /* Hide scrollbar for layout cleanliness */
+  scrollbar-width: none; 
+}
+.dashboard-left-col::-webkit-scrollbar {
+  display: none;
+}
+
+.dashboard-right-col {
+  height: 100%;
+  min-height: 0;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 600px;
+  }
+}
