@@ -272,3 +272,8 @@ p {
 .status-filled { background: rgba(16, 185, 129, 0.15); color: var(--success); }
 .status-pending { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
 .status-failed { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+
+@media (max-width: 768px) {
+  html { font-size: 14px; }
+  .glass-panel { padding: 1rem; }
+}
