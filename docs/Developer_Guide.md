@@ -32,6 +32,11 @@ The AI Trading Assistant follows a modular monolith architecture. It is designed
 - **Database**: Relational structure mapping `users` (1) to `watchlists` (N) to `watchlist_items` (N) with `ON DELETE CASCADE`.
 - **API**: Endpoints for CRUD operations on watchlists, and an Admin-only `/api/v1/users` list endpoint.
 
+### Portfolio & Order Management
+- **Architecture**: Core financial state representing a user's holdings. Mock execution engine handles MARKET orders immediately, affecting cash balances and position averages.
+- **Database**: Strict `Numeric(18,4)` field types are used for `cash_balance`, `price`, and `quantity` to avoid floating-point loss. One-to-One mapping for `User` <-> `Portfolio`, One-to-Many for `Portfolio` <-> `Position` and `Order`.
+- **API**: `GET /api/v1/portfolio` fetches the account state and positions, `GET /api/v1/orders` fetches trade history, and `POST /api/v1/orders` allows submitting new trades.
+
 ### Database Foundation & Vector DB
 - **Relational DB (MySQL)**: Handled via SQLAlchemy 2.x and Alembic. A seed script `backend/db/seed.py` is provided to rapidly initialize essential data (admin and default user) during local setups.
 - **Vector DB (Qdrant)**: Asynchronous Qdrant client connection is established in `backend/db/vector.py`. Data such as company filings or knowledge base articles will be stored here in separate collections (e.g., `company_filings`), which will be dynamically queried via LangGraph agents for RAG (Retrieval-Augmented Generation) tasks.
