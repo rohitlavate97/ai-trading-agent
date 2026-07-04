@@ -45,7 +45,7 @@ The AI Trading Assistant follows a modular monolith architecture. It is designed
 
 ### Database Foundation & Vector DB
 - **Relational DB (MySQL)**: Handled via SQLAlchemy 2.x and Alembic. A seed script `backend/db/seed.py` is provided to rapidly initialize essential data (admin and default user) during local setups.
-- **Vector DB (Qdrant)**: Asynchronous Qdrant client connection is established in `backend/db/vector.py`. Data such as company filings or knowledge base articles will be stored here in separate collections (e.g., `company_filings`), which will be dynamically queried via LangGraph agents for RAG (Retrieval-Augmented Generation) tasks.
+- **Vector DB (Qdrant)**: A file-based local `QdrantClient` (`backend/db/vector.py`) provides the Retrieval-Augmented Generation (RAG) backend. The `MarketAgent` can semantically query indexed 10-K and 10-Q filings using the `search_company_filings` tool to prevent LLM hallucinations.
 
 ## Frontend Architecture
 - **Tech Stack**: React + TypeScript built with Vite.

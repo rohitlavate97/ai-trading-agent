@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- **Milestone 15: Vector Database RAG Connection**: Integrated `qdrant-client` into `backend/db/vector.py` and implemented a local file-based semantic database. Added `search_company_filings` tool to the `MarketAgent` to fetch insights from mocked 10-K and 10-Q documents without hallucinating.
 - **Milestone 14: Trading UI and Portfolio Widgets**: Built `PortfolioWidget` and `OrderHistoryWidget` to fetch and render live trading data from the backend. Redesigned the Dashboard using CSS Grid to display data widgets side-by-side with the ChatWidget.
 - **Milestone 13: AI Chat Widget**: Created a real-time `ChatWidget` component in React. Wired it to the `ws://localhost:8000/api/v1/ws/chat` endpoint to parse and display streamed tokens and interactive tool execution badges.
 - **Milestone 12: Authentication & state management**: Created frontend `ApiClient`, `AuthContext`, and `ProtectedRoute`. Connected `/login` and `/register` components to backend FastAPI endpoints using JWT.

@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 
 from core.config import settings
-from agents.tools import get_stock_price, get_portfolio_tools
+from agents.tools import get_stock_price, get_portfolio_tools, search_company_filings
 
 # State definition
 class AgentState(TypedDict):
@@ -40,8 +40,8 @@ def get_supervisor_app(db: AsyncSession, user_id: str):
     # 1. Create Sub-Agents
     market_agent = create_react_agent(
         llm, 
-        tools=[get_stock_price],
-        state_modifier="You are a Market Agent. You provide stock prices and market data. Answer concisely."
+        tools=[get_stock_price, search_company_filings],
+        state_modifier="You are a Market Agent. You provide stock prices and market data, and can search company SEC filings and reports. Answer concisely."
     )
     
     portfolio_tools = get_portfolio_tools(db, user_id)
