@@ -17,7 +17,13 @@
    cd backend
    pip install -e .
    ```
-5. Run the backend server locally:
+5. Run database migrations and seed data:
+   ```bash
+   cd backend
+   alembic upgrade head
+   python db/seed.py
+   ```
+6. Run the backend server locally:
    ```bash
    cd backend
    uvicorn main:app --reload
